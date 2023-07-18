@@ -8,8 +8,8 @@ import javax.sql.DataSource;
 
 @Configuration
 public class AppConfig {
-//  @Bean
-//  public JdbcTemplate jdbcTemplate(DataSource dataSource){
-//    return new JdbcTemplate(dataSource);
-//  }
+  @Bean
+  public JdbcTemplate jdbcTemplate(DataSource dataSource){
+    return new JdbcTemplate(dataSource);
+  }
 }

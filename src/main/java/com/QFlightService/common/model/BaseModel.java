@@ -7,16 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseModel {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id", nullable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-
-  private Date created_on;
-  private Date updated_on;
+  private Date created_date;
+  private Date updated_date;
 }

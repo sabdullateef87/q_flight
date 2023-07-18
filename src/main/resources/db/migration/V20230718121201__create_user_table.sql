@@ -1,0 +1,13 @@
+CREATE TABLE user(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(225),
+    date_of_birth VARCHAR(50),
+    address VARCHAR(225),
+    image VARCHAR(225),
+    mobile_number VARCHAR(15) NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
