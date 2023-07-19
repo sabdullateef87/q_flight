@@ -12,7 +12,3 @@ services:
     image: 'redis:latest'
     ports:
       - '6379'
-  zipkin:
-    image: 'openzipkin/zipkin:latest'
-    ports:
-      - '9411'

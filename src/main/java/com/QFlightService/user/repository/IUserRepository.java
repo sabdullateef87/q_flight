@@ -1,5 +1,9 @@
 package com.QFlightService.user.repository;
 
-public interface IUserRepository {
+import com.QFlightService.user.model.User;
+import com.QFlightService.user.model.request.CreateUserRequest;
 
+public interface IUserRepository {
+  User createUser(CreateUserRequest request);
+  User getUserDetails();
 }

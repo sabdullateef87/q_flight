@@ -13,7 +13,19 @@ import java.util.Date;
 public class Response {
   @JsonProperty("reference_id")
   private String referenceId;
+
+  @JsonProperty("data")
   private Object data;
+
+  @JsonProperty("error")
   private Object error;
+
+  @JsonProperty("time_stamp")
   private Date timestamp;
+
+  @JsonProperty("response_message")
+  private String responseMessage;
+
+  @JsonProperty("response_code")
+  private String responseCode;
 }

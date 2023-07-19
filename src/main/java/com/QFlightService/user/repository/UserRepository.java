@@ -3,6 +3,7 @@ package com.QFlightService.user.repository;
 import com.QFlightService.common.exception.DatabaseException;
 import com.QFlightService.user.model.User;
 import com.QFlightService.user.model.request.CreateUserRequest;
+import com.QFlightService.user.util.CustomUserEntityRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,11 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class UserRepository {
+public class UserRepository implements IUserRepository {
   private static final String SINGLE_RESULT = "single";
   private static final String MULTIPLE_RESULT = "list";
   private static final String COUNT = "count";
-  private SimpleJdbcCall createUser;
+  private SimpleJdbcCall createUser, getUserDetails;
 
   @Autowired
   public void setDataSource(DataSource dataSource){
@@ -28,6 +29,10 @@ public class UserRepository {
 
     createUser = new SimpleJdbcCall(jdbcTemplate)
         .withProcedureName("insert_new_user")
+        .returningResultSet(SINGLE_RESULT, new CustomUserEntityRowMapper());
+
+    getUserDetails = new SimpleJdbcCall(jdbcTemplate)
+        .withProcedureName("get_user_details")
         .returningResultSet(SINGLE_RESULT, BeanPropertyRowMapper.newInstance(User.class));
   }
 
@@ -47,7 +52,13 @@ public class UserRepository {
       List<User> newUser = (List<User>) out.get(SINGLE_RESULT);
       return newUser.get(0);
     }catch(Exception ex){
+      System.out.println(ex);
       throw new DatabaseException(ex.getMessage());
     }
+  }
+
+  @Override
+  public User getUserDetails() {
+    return null;
   }
 }

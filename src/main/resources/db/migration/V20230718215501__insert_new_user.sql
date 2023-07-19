@@ -1,5 +1,4 @@
 DELIMITER $$
-
 DROP PROCEDURE IF EXISTS insert_new_user $$
 
 CREATE PROCEDURE insert_new_user(
@@ -15,9 +14,9 @@ CREATE PROCEDURE insert_new_user(
 
 BEGIN
 	DECLARE saved_id INT;
-    INSERT INTO user (first_name, last_name, email, password, date_of_birth, ddress, image, mobile_number)
+    INSERT INTO user (first_name, last_name, email, password, date_of_birth, address, image, mobile_number)
     VALUES(p_first_name, p_last_name, p_email, p_password, p_date_of_birth, p_address, p_image, p_mobile_number);
-    SET saved_id = LAST_INSERTED_ID();
+    SET saved_id = LAST_INSERT_ID();
 
     SELECT * FROM user WHERE id = saved_id;
 
