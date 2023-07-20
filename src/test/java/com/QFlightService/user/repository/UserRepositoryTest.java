@@ -53,7 +53,7 @@ class UserRepositoryTest {
 
   }
 
-  @DisplayName("CREATE NEW USER SUCCESSFUL")
+  @DisplayName("CREATE NEW USER FAILED")
   @Test
   void CREATE_NEW_USER_FAILED() {
 
