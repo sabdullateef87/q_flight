@@ -23,26 +23,22 @@ import static org.junit.jupiter.api.Assertions.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserRepositoryTest {
 
-
-
   @Container
   static MySQLContainer mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0-debian"));
   @DynamicPropertySource
-  static void kafkaProperties(DynamicPropertyRegistry registry) {
+  static void mySqlProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.datasource.url", () -> mySQLContainer.getJdbcUrl());
     registry.add("spring.datasource.driverClassName", () -> mySQLContainer.getDriverClassName());
     registry.add("spring.datasource.username", () -> mySQLContainer.getUsername());
     registry.add("spring.datasource.password", () -> mySQLContainer.getPassword());
     registry.add("spring.flyway.enabled", () -> "true");
   }
-
   @Autowired
   private IUserRepository userRepository;
 
   @DisplayName("CREATE NEW USER SUCCESSFUL")
   @Test
   void CREATE_NEW_USER_SUCCESSFUL() {
-
     CreateUserRequest request = TestUtil.testRequest1();
     User user = userRepository.createUser(request);
 
@@ -50,23 +46,7 @@ class UserRepositoryTest {
     Assertions.assertEquals(user.getEmail(), request.getEmail());
     Assertions.assertEquals(user.getLastname(), request.getLastName());
     Assertions.assertEquals(user.getMobileNumber(), request.getMobileNumber());
-
   }
-
-  @DisplayName("CREATE NEW USER FAILED")
-  @Test
-  void CREATE_NEW_USER_FAILED() {
-
-    CreateUserRequest request = TestUtil.testRequest2();
-    User user = userRepository.createUser(request);
-
-    Assertions.assertNotNull(user);
-    Assertions.assertNotEquals(user.getEmail(), "email");
-    Assertions.assertNotEquals(user.getLastname(), "password");
-    Assertions.assertNotEquals(user.getMobileNumber(), "mobile");
-
-  }
-
   @DisplayName("CREATE NEW USER THROWS ERROR")
   @Test
   void CREATE_NEW_USER_FAILED_THROWS_ERROR() {
@@ -74,6 +54,18 @@ class UserRepositoryTest {
     Assertions.assertThrows(DatabaseException.class, () -> {
       userRepository.createUser(request);
     });
+
+  }
+  @DisplayName("CREATE NEW USER FAILED")
+  @Test
+  void CREATE_NEW_USER_FAILED() {
+    CreateUserRequest request = TestUtil.testRequest2();
+    User user = userRepository.createUser(request);
+
+    Assertions.assertNotNull(user);
+    Assertions.assertNotEquals(user.getEmail(), "email");
+    Assertions.assertNotEquals(user.getLastname(), "password");
+    Assertions.assertNotEquals(user.getMobileNumber(), "mobile");
 
   }
 }
