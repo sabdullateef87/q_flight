@@ -1,8 +1,10 @@
 package com.QFlightService.user.service;
 
+import com.QFlightService.common.exception.BadRequestException;
 import com.QFlightService.common.exception.BaseException;
 import com.QFlightService.user.model.User;
 import com.QFlightService.user.model.request.CreateUserRequest;
+import com.QFlightService.user.model.request.GetUserDetailsRequest;
 import com.QFlightService.user.model.response.UserResponseDto;
 import com.QFlightService.user.repository.IUserRepository;
 import com.QFlightService.user.util.UserMapper;
@@ -24,5 +26,13 @@ public class UserService implements IUserService{
     }catch (Exception ex){
       throw new BaseException(ex.getMessage());
     }
+  }
+
+  @Override
+  public UserResponseDto getUerDetail(GetUserDetailsRequest request) {
+
+      GetUserDetailsRequest params = request.softValidate();
+      User userDetails = userRepository.getUserDetails(params);
+      return UserMapper.mapUserToUserResponseDto(userDetails);
   }
 }

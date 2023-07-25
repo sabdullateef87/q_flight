@@ -1,8 +1,10 @@
 package com.QFlightService.user.repository;
 
 import com.QFlightService.common.exception.DatabaseException;
+import com.QFlightService.common.exception.RecordNotFoundException;
 import com.QFlightService.user.model.User;
 import com.QFlightService.user.model.request.CreateUserRequest;
+import com.QFlightService.user.model.request.GetUserDetailsRequest;
 import com.QFlightService.user.util.CustomUserEntityRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -13,6 +15,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +36,7 @@ public class UserRepository implements IUserRepository {
 
     getUserDetails = new SimpleJdbcCall(jdbcTemplate)
         .withProcedureName("get_user_details")
-        .returningResultSet(SINGLE_RESULT, BeanPropertyRowMapper.newInstance(User.class));
+        .returningResultSet(SINGLE_RESULT, new CustomUserEntityRowMapper());
   }
 
   public User createUser(CreateUserRequest request){
@@ -52,13 +55,29 @@ public class UserRepository implements IUserRepository {
       List<User> newUser = (List<User>) out.get(SINGLE_RESULT);
       return newUser.get(0);
     }catch(Exception ex){
-      System.out.println(ex);
       throw new DatabaseException(ex.getMessage());
     }
   }
 
   @Override
-  public User getUserDetails() {
-    return null;
+  public User getUserDetails(GetUserDetailsRequest request) {
+    try{
+      SqlParameterSource in = new MapSqlParameterSource()
+          .addValue("p_email", request.getEmail())
+          .addValue("p_mobile_number", request.getMobileNumber());
+
+      Map<String, Object> out = this.getUserDetails.execute(in);
+      List<User> user = (List<User>) out.get(SINGLE_RESULT);
+      if(user == null || user.size() == 0){
+        String errorMessage = String.format("User with email %s or phone number %s does not exist", request.getEmail(), request.getMobileNumber());
+        throw new RecordNotFoundException(errorMessage);
+      }
+      return user.get(0);
+    } catch(Exception ex){
+      if(ex instanceof RecordNotFoundException){
+        throw ex;
+      }
+      throw new DatabaseException(ex.getMessage());
+    }
   }
 }

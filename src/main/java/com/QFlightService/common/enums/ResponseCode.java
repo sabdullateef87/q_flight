@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum ResponseCode {
   ACCEPTED("02", "Accepted"),
   BAD_REQUEST("31", "Invalid request, check you request and try again"),
+  NOT_RECORD_FOUND("19", "Invalid request, check you request and try again"),
   SUCCESSFUL("00", "Successful");
 
   private final String code;

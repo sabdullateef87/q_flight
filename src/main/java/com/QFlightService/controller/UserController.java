@@ -4,6 +4,7 @@ import com.QFlightService.common.enums.ResponseCode;
 import com.QFlightService.common.model.Response;
 import com.QFlightService.common.utils.QUtil;
 import com.QFlightService.user.model.request.CreateUserRequest;
+import com.QFlightService.user.model.request.GetUserDetailsRequest;
 import com.QFlightService.user.model.response.UserResponseDto;
 import com.QFlightService.user.service.IUserService;
 import com.QFlightService.user.service.UserService;
@@ -34,5 +35,18 @@ public class UserController {
         .responseCode(ResponseCode.SUCCESSFUL.getCode())
         .responseMessage("User Created Successfully").build();
     return ResponseEntity.status(HttpStatus.CREATED).body(res);
+  }
+
+
+  @GetMapping()
+  public ResponseEntity<Response> getUserDetails(GetUserDetailsRequest request){
+    UserResponseDto response = userService.getUerDetail(request);
+    Response res = Response.builder()
+        .referenceId(QUtil.generateRef())
+        .data(response)
+        .timestamp(new Date())
+        .responseCode(ResponseCode.SUCCESSFUL.getCode())
+        .responseMessage("Successful").build();
+    return ResponseEntity.status(HttpStatus.OK).body(res);
   }
 }

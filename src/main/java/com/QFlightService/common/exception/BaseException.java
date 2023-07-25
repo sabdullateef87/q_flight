@@ -3,8 +3,6 @@ package com.QFlightService.common.exception;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 public class BaseException extends RuntimeException{
   private String code;
 
