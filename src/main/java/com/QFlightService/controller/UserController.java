@@ -39,7 +39,7 @@ public class UserController {
 
 
   @GetMapping()
-  public ResponseEntity<Response> getUserDetails(GetUserDetailsRequest request){
+  public ResponseEntity<Response> getUserDetails(@Valid GetUserDetailsRequest request){
     UserResponseDto response = userService.getUerDetail(request);
     Response res = Response.builder()
         .referenceId(QUtil.generateRef())

@@ -63,9 +63,7 @@ public class UserRepository implements IUserRepository {
   public User getUserDetails(GetUserDetailsRequest request) {
     try{
       SqlParameterSource in = new MapSqlParameterSource()
-          .addValue("p_email", request.getEmail())
-          .addValue("p_mobile_number", request.getMobileNumber());
-
+          .addValue("p_email", request.getEmail());
       Map<String, Object> out = this.getUserDetails.execute(in);
       List<User> user = (List<User>) out.get(SINGLE_RESULT);
       if(user == null || user.size() == 0){

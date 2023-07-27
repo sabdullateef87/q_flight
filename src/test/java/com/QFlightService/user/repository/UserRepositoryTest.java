@@ -86,19 +86,6 @@ class UserRepositoryTest {
     Assertions.assertEquals(user.getEmail(), request.getEmail());
   }
 
-  @DisplayName("GET USER DETAILS : FAILED (THROWS ERROR) - DATA TOO LONG FOR EMAIL")
-  @Test
-  void GET_USER_DETAILS_INVALID_MOBILE_NUMBER(){
-    GetUserDetailsRequest request = GetUserDetailsRequest.builder()
-        .email("as@gmail.com")
-        .mobileNumber("90902798087586576786897")
-        .build();
-
-    DatabaseException ex = Assertions.assertThrows(DatabaseException.class, () -> {
-      userRepository.getUserDetails(request);
-    });
-  }
-
   @DisplayName("GET USER DETAILS FOR NON EXISTING USER: FAILED (THROWS ERROR)")
   @Test
   void GET_USER_DETAILS_FOR_NON_EXISTING_USER(){

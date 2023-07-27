@@ -3,6 +3,7 @@ package com.QFlightService.user.model.request;
 import com.QFlightService.common.exception.BadRequestException;
 import com.QFlightService.common.utils.QUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GetUserDetailsRequest {
+
+  @Email
   private String email;
   @JsonProperty("mobile_number")
   private String mobileNumber;

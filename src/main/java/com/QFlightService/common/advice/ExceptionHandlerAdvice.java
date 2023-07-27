@@ -83,7 +83,8 @@ public class ExceptionHandlerAdvice {
         .error(errors)
         .responseMessage(ResponseCode.NOT_RECORD_FOUND.getMessage())
         .responseCode(ResponseCode.NOT_RECORD_FOUND.getCode())
-        .referenceId(QUtil.generateRef()).build());
+        .referenceId(QUtil.generateRef())
+        .build());
   }
 
   @ExceptionHandler(BadRequestException.class)
@@ -94,7 +95,8 @@ public class ExceptionHandlerAdvice {
         .timestamp(new Date())
         .error(errors)
         .referenceId(QUtil.generateRef())
-        .responseCode(ResponseCode.BAD_REQUEST.getCode())
+        .responseCode(ResponseCode.BAD_REQUEST.getCode()
+
         .responseMessage(ResponseCode.BAD_REQUEST.getMessage())
         .build());
   }
